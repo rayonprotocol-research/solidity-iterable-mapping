@@ -1,0 +1,30 @@
+{
+  "name": "solidity-iterable-mapping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rayonprotocol-research/solidity-iterable-mapping.git"
+  },
+  "keywords": [
+    "upgradable"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rayonprotocol-research/solidity-iterable-mapping/issues"
+  },
+  "homepage": "https://github.com/rayonprotocol-research/solidity-iterable-mapping#readme"
+}
