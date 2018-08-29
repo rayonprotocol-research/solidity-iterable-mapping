@@ -2,11 +2,11 @@ pragma solidity ^0.4.19;
 
 contract AddressToBytes32IterableMap {
     struct Entry{
-        uint index; // index start 1 to list.length
+        uint index; // index start 1 to keyList.length
         bytes32 value;
     }
     mapping(address => Entry) internal map;
-    address[] internal list;
+    address[] internal keyList;
 
     function add(address _key, bytes32 _value) public {
         Entry storage entry = map[_key];
@@ -15,28 +15,28 @@ contract AddressToBytes32IterableMap {
             // do nothing
             return;
         }else { // new entry
-            entry.index = ++list.length;
-            list[entry.index-1] = _key;
+            keyList.push(_key);
+            uint keyListIndex = keyList.length - 1;
+            entry.index = keyListIndex + 1;
         }
     }
 
     function remove(address _key) public {
         Entry storage entry = map[_key];
-        if(entry.index == 0){ // entry not exist
-            // do nothing
-            return;
-        }
-        require(entry.index <= list.length);
+        require(entry.index != 0); // entry not exist
+        require(entry.index <= keyList.length); // invalid index value
         
-        // Move an existing element into the vacated key slot.
-        map[list[list.length-1]].index = entry.index;
-        list[entry.index-1] = list[list.length-1];
-        list.length--;
+        // Move an last element of array into the vacated key slot.
+        uint keyListIndex = entry.index - 1;
+        uint keyListLastIndex = keyList.length - 1;
+        map[keyList[keyListLastIndex]].index = keyListIndex + 1;
+        keyList[keyListIndex] = keyList[keyListLastIndex];
+        keyList.length--;
         delete map[_key];
     }
     
     function size() public view returns (uint) {
-        return uint(list.length);
+        return uint(keyList.length);
     }
     
     function contains(address _key) public view returns (bool) {
@@ -49,11 +49,11 @@ contract AddressToBytes32IterableMap {
     
     function getByIndex(uint _index) public view returns (bytes32) {
         require(_index >= 0);
-        require(_index < list.length);
-        return map[list[_index]].value;
+        require(_index < keyList.length);
+        return map[keyList[_index]].value;
     }
 
     function getKeys() public view returns (address[]) {
-        return list;
+        return keyList;
     }
 }
